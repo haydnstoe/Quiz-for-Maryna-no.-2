@@ -1,22 +1,270 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Interactive Quiz</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Quiz no.2 for Maryna</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2em;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    .question {
+      margin-bottom: 1.5em;
+    }
+    .options label {
+      display: block;
+      margin: 0.3em 0;
+    }
+    .feedback {
+      font-weight: bold;
+      margin-top: 0.5em;
+    }
+    .correct {
+      color: green;
+    }
+    .incorrect {
+      color: red;
+    }
+    #results {
+      margin-top: 2em;
+      padding: 1em;
+      background-color: #eaf2f8;
+      border: 1px solid #ccc;
+    }
+  </style>
 </head>
 <body>
-  <h1>HTML Basics Quiz</h1>
-  <form id="quiz-form">
-    <div>
-      <p>1. What does HTML stand for?</p>
-      <input type="radio" name="q1" value="a"> Home Tool Markup Language<br>
-      <input type="radio" name="q1" value="b"> HyperText Markup Language<br>
-      <input type="radio" name="q1" value="c"> Hyperlink Text Management Language<br>
-    </div>
-    <button type="button" onclick="submitQuiz()">Submit</button>
-  </form>
-  <div id="result"></div>
 
-  <script src="script.js"></script>
+<h1>Quiz no. for Maryna</h1>
+<p><strong>Level:</strong> Proficiency (British English)</p>
+<p><strong>Focus:</strong> 2nd Conditional, Idioms, Phrasal Verbs, Articles, Advanced Vocabulary, First Conditional</p>
+
+<div id="quiz"></div>
+<div id="results"></div>
+
+<script>
+const questions = [
+  {
+    text: "If I ______ more time, I would travel the world.",
+    options: ["have", "had", "will have", "would have"],
+    correct: ["had"]
+  },
+  {
+    text: "She was over the moon when she got the job. What does 'over the moon' mean?",
+    options: ["very sad", "extremely happy", "confused", "angry"],
+    correct: ["extremely happy"]
+  },
+  {
+    text: "He turned down the offer. What does 'turned down' mean?",
+    options: ["accepted", "refused", "ignored", "postponed"],
+    correct: ["refused"]
+  },
+  {
+    text: "He’s such ______ honest man.",
+    options: ["a", "an", "the", "no article"],
+    correct: ["an"]
+  },
+  {
+    text: "The word 'ubiquitous' most nearly means:",
+    options: ["rare", "everywhere", "invisible", "unusual"],
+    correct: ["everywhere"]
+  },
+  {
+    text: "If she ______ the train, she will be late.",
+    options: ["misses", "miss", "missed", "had missed"],
+    correct: ["misses"]
+  },
+  {
+    text: "To 'spill the beans' means to:",
+    options: ["cook dinner", "reveal a secret", "make a mess", "lie"],
+    correct: ["reveal a secret"]
+  },
+  {
+    text: "He came ______ a brilliant idea during the meeting.",
+    options: ["up with", "across", "into", "out of"],
+    correct: ["up with"]
+  },
+  {
+    text: "She gave me ______ advice.",
+    options: ["an", "some", "a", "the"],
+    correct: ["some"]
+  },
+  {
+    text: "The word 'ephemeral' most nearly means:",
+    options: ["lasting a short time", "eternal", "boring", "bright"],
+    correct: ["lasting a short time"]
+  },
+  {
+    text: "If they ______ earlier, they wouldn’t have missed the flight.",
+    options: ["left", "leave", "had left", "would leave"],
+    correct: ["had left"]
+  },
+  {
+    text: "To 'hit the nail on the head' means:",
+    options: ["make a mistake", "be exactly right", "hurt someone", "fix something"],
+    correct: ["be exactly right"]
+  },
+  {
+    text: "He ran ______ an old friend at the café.",
+    options: ["into", "over", "across", "through"],
+    correct: ["into"]
+  },
+  {
+    text: "She is ______ university professor.",
+    options: ["a", "an", "the", "no article"],
+    correct: ["a", "an"]
+  },
+  {
+    text: "The word 'obfuscate' most nearly means:",
+    options: ["clarify", "confuse", "simplify", "ignore"],
+    correct: ["confuse"]
+  },
+  {
+    text: "If you lent me your car, I’d be able to get to the airport.",
+    options: ["lend", "lent", "will lend", "had lent"],
+    correct: ["lent"]
+  },
+  {
+    text: "To 'throw in the towel' means to:",
+    options: ["give up", "start over", "celebrate", "fight harder"],
+    correct: ["give up"]
+  },
+  {
+    text: "She broke ______ tears when she heard the news.",
+    options: ["into", "out", "down", "up"],
+    correct: ["into"]
+  },
+  {
+    text: "He gave me ______ useful information.",
+    options: ["a", "an", "some", "the"],
+    correct: ["some"]
+  },
+  {
+    text: "The word 'quintessential' most nearly means:",
+    options: ["typical", "rare", "confusing", "unusual"],
+    correct: ["typical"]
+  },
+  {
+    text: "If I ______ you, I wouldn’t do that.",
+    options: ["were", "was", "am", "be"],
+    correct: ["were"]
+  },
+  {
+    text: "To 'burn the midnight oil' means to:",
+    options: ["sleep early", "work late", "waste time", "party all night"],
+    correct: ["work late"]
+  },
+  {
+    text: "He looked ______ the report carefully.",
+    options: ["over", "into", "up", "on"],
+    correct: ["over"]
+  },
+  {
+    text: "She is ______ expert in her field.",
+    options: ["a", "an", "the", "no article"],
+    correct: ["an"]
+  },
+  {
+    text: "The word 'perspicacious' most nearly means:",
+    options: ["foolish", "insightful", "lazy", "talkative"],
+    correct: ["insightful"]
+  },
+  {
+    text: "If it rains tomorrow, we ______ the picnic.",
+    options: ["will cancel", "cancel", "would cancel", "cancelled"],
+    correct: ["will cancel"]
+  },
+  {
+    text: "If you study hard, you ______ the exam.",
+    options: ["will pass", "passed", "pass", "would pass"],
+    correct: ["will pass"]
+  },
+  {
+    text: "If they arrive on time, we ______ the early train.",
+    options: ["will catch", "catch", "caught", "would catch"],
+    correct: ["will catch"]
+  }
+];
+
+let current = 0;
+let score = 0;
+let wrong = 0;
+let altAnswers = [];
+
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  const container = document.getElementById("quiz");
+  container.innerHTML = `
+    <div class="question">
+      <p><strong>Question ${current + 1}:</strong> ${q.text}</p>
+      <form id="questionForm">
+        <div class="options">
+          ${shuffle(q.options).map(opt => `
+            <label><input type="radio" name="answer" value="${opt}"> ${opt}</label>
+          `).join("")}
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+      <div class="feedback" id="feedback"></div>
+    </div>
+  `;
+
+  document.getElementById("questionForm").onsubmit = function(e) {
+    e.preventDefault();
+    const selected = document.querySelector('input[name="answer"]:checked');
+    const feedback = document.getElementById("feedback");
+    if (!selected) {
+      feedback.innerHTML = "Please select an answer.";
+      return;
+    }
+    const answer = selected.value;
+    if (q.correct.includes(answer)) {
+      feedback.innerHTML = `<span class="correct">Correct!</span>`;
+      score++;
+    } else {
+      feedback.innerHTML = `<span class="incorrect">Incorrect.</span>`;
+      wrong++;
+      if (q.correct.length > 1) {
+        altAnswers.push({ question: q.text, correct: q.correct });
+      }
+    }
+    setTimeout(() => {
+      current++;
+      if (current < questions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }, 1000);
+  };
+}
+
+function showResults() {
+  const container = document.getElementById("quiz");
+  container.innerHTML = "";
+  const results = document.getElementById("results");
+  results.innerHTML = `
+    <h2>Quiz Completed!</h2>
+    <p><strong>Correct answers:</strong> ${score}</p>
+    <p><strong>Incorrect answers:</strong> ${wrong}</p>
+    ${altAnswers.length > 0 ? "<h3>Alternative correct answers you missed:</h3>" : ""}
+    <ul>
+      ${altAnswers.map(item => `<li><strong>${item.question}</strong><br>Other correct answers: ${item.correct.join(", ")}</li>`).join("")}
+    </ul>
+  `;
+}
+
+renderQuestion();
+</script>
+
 </body>
 </html>
